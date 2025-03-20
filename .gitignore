@@ -1,2 +1,6 @@
 config.toml
 .venv
+.__pycache__
+.pytest_cache
+src\__pycache__
+test\__pycache__
