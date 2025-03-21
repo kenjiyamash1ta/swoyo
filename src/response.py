@@ -17,7 +17,7 @@ class HTTPResponse:
         status_line = f"HTTP/1.1 {self.status_code} {self.status_message}\r\n"
         headers = "\r\n".join(f"{key}: {value}" for key, value in self.headers.items())
         body = self.body if self.body else ""
-        http_response = f"{status_line}{headers}\r\n{body}"
+        http_response = f"{status_line}{headers}\r\n\r\n{body}"
         return http_response.encode('utf-8')
 
     @classmethod
@@ -30,14 +30,17 @@ class HTTPResponse:
         status_code = int(status_code)
 
         headers = {}
-        for line in lines[1:]:
-            if not line:
-                break 
-            key, value = line.split(": ", 1)
-            headers[key] = value
-
         body = ""
-        if "\r\n\r\n" in data:
-            body = data.split("\r\n\r\n", 1)[1]
+        is_body = False
+        for line in lines[1:]:
+            if not line.strip():
+                is_body = True
+                continue
+            if is_body:
+                body += line
+            else:
+                if ": " in line:  
+                    key, value = line.split(": ", 1)
+                    headers[key] = value
 
         return cls(status_code=status_code, status_message=status_message, headers=headers, body=body)
