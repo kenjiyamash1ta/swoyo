@@ -12,7 +12,7 @@ $ pip install -r requirements.txt
 ```
 ## Запуск
 ```bash
-python main -s "88005553535" -r "88005553535" -m "Your message"
+python -m main -s "88005553535" -r "88005553535" -m "Your message"
 ```
 ## Тестирование
 
