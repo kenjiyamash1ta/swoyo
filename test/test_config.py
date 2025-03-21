@@ -1,7 +1,7 @@
 import pytest
-from src.config import read
+from src.config import read_cfg
 
-def test_read(tmp_path):
+def test_read_cfg(tmp_path):
     config_content = """
     username = "user"
     password = "pass"
@@ -11,9 +11,9 @@ def test_read(tmp_path):
     config_file = tmp_path / "config.toml"
     config_file.write_text(config_content)
 
-    config = read(config_file)
+    config = read_cfg(config_file)
 
-    # Проверяем, что конфигурация загружена корректно
+    
     assert config["host"] == "localhost"
     assert config["port"] == "4010"
     assert config["username"] == "user"
@@ -21,4 +21,4 @@ def test_read(tmp_path):
 
 def test_load_config_file_not_found():
     with pytest.raises(FileNotFoundError):
-        read("nonexistent.toml")
+        read_cfg("nonexistent.toml")

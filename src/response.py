@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-class Response:
+class HTTPResponse:
     def __init__(
         self,
         status_code: int = 200,
@@ -17,11 +17,11 @@ class Response:
         status_line = f"HTTP/1.1 {self.status_code} {self.status_message}\r\n"
         headers = "\r\n".join(f"{key}: {value}" for key, value in self.headers.items())
         body = self.body if self.body else ""
-        http_response = f"{status_line}{headers}\r\n\r\n{body}"
+        http_response = f"{status_line}{headers}\r\n{body}"
         return http_response.encode('utf-8')
 
     @classmethod
-    def from_bytes(cls, binary_data: bytes) -> "Response":
+    def from_bytes(cls, binary_data: bytes) -> "HTTPResponse":
         data = binary_data.decode('utf-8')
         lines = data.split("\r\n")
 

@@ -1,8 +1,8 @@
 import pytest
-from src.request import Request
+from src.request import HTTPRequest
 
 def test_to_bytes():
-    request = Request(
+    request = HTTPRequest(
         method="POST",
         path="/send_sms",
         headers={
@@ -33,7 +33,7 @@ def test_from_bytes():
         b'{"message": "Hello, World!"}'
     )
 
-    request = Request.from_bytes(request_bytes)
+    request = HTTPRequest.from_bytes(request_bytes)
 
     assert request.method == "POST"
     assert request.path == "/send_sms"
@@ -44,7 +44,7 @@ def test_from_bytes():
     assert request.body == '{"message": "Hello, World!"}'
 
 def test_to_bytes_and_from_bytes_roundtrip():
-    original_request = Request(
+    original_request = HTTPRequest(
         method="GET",
         path="/",
         headers={"User-Agent": "TestClient"},
@@ -52,7 +52,7 @@ def test_to_bytes_and_from_bytes_roundtrip():
     )
 
     request_bytes = original_request.to_bytes()
-    new_request = Request.from_bytes(request_bytes)
+    new_request = HTTPRequest.from_bytes(request_bytes)
 
     assert new_request.method == original_request.method
     assert new_request.path == original_request.path
@@ -66,7 +66,7 @@ def test_from_bytes_without_body():
         b"\r\n"
     )
 
-    request = Request.from_bytes(request_bytes)
+    request = HTTPRequest.from_bytes(request_bytes)
 
     assert request.method == "GET"
     assert request.path == "/"
@@ -80,7 +80,7 @@ def test_from_bytes_with_empty_headers():
         b"Test Body"
     )
 
-    request = Request.from_bytes(request_bytes)
+    request = HTTPRequest.from_bytes(request_bytes)
 
     assert request.method == "GET"
     assert request.path == "/"
