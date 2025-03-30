@@ -3,6 +3,7 @@ from src.response import HTTPResponse
 from src.request import HTTPRequest
 from src.log import logger
 
+
 def send_sms(request: HTTPRequest, host: str, port: int) -> HTTPResponse:
     try:
         with socket.create_connection((host, port)) as sock:

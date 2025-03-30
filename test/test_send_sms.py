@@ -1,8 +1,7 @@
-import pytest
 from unittest.mock import patch, MagicMock
 from src.request import HTTPRequest
-from src.response import HTTPResponse
 from src.send_sms import send_sms
+
 
 def test_send_sms_success():
     """
@@ -37,6 +36,7 @@ def test_send_sms_success():
         assert response.status_code == 200
         assert response.status_message == "OK"
         assert response.body == '{"status": "success"}'
+
 
 def test_send_sms_error():
     """

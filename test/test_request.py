@@ -1,5 +1,5 @@
-import pytest
 from src.request import HTTPRequest
+
 
 def test_to_bytes():
     request = HTTPRequest(
@@ -24,6 +24,7 @@ def test_to_bytes():
 
     assert request_bytes == expected
 
+
 def test_from_bytes():
     request_bytes = (
         b"POST /send_sms HTTP/1.1\r\n"
@@ -43,6 +44,7 @@ def test_from_bytes():
     }
     assert request.body == '{"message": "Hello, World!"}'
 
+
 def test_to_bytes_and_from_bytes_roundtrip():
     original_request = HTTPRequest(
         method="GET",
@@ -59,6 +61,7 @@ def test_to_bytes_and_from_bytes_roundtrip():
     assert new_request.headers == original_request.headers
     assert new_request.body == original_request.body
 
+
 def test_from_bytes_without_body():
     request_bytes = (
         b"GET / HTTP/1.1\r\n"
@@ -72,6 +75,7 @@ def test_from_bytes_without_body():
     assert request.path == "/"
     assert request.headers == {"Host": "localhost:4010"}
     assert request.body == ""
+
 
 def test_from_bytes_with_empty_headers():
     request_bytes = (

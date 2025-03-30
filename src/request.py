@@ -1,5 +1,6 @@
 from typing import Optional, Dict
 
+
 class HTTPRequest:
     def __init__(
         self,
@@ -15,9 +16,11 @@ class HTTPRequest:
 
     def to_bytes(self) -> bytes:
         request_line = f"{self.method} {self.path} HTTP/1.1\r\n"
-        headers = "\r\n".join(f"{key}: {value}" for key, value in self.headers.items())
+        headers = "\r\n".join(
+            f"{key}: {value}" for key, value in self.headers.items()
+        )
         body = self.body if self.body else ""
-        http_request = f"{request_line}{headers}\r\n\r\n{body}" 
+        http_request = f"{request_line}{headers}\r\n\r\n{body}"
         return http_request.encode('utf-8')
 
     @classmethod
@@ -34,7 +37,7 @@ class HTTPRequest:
             headers[key] = value
 
         body = ""
-        if "\r\n\r\n" in data: 
+        if "\r\n\r\n" in data:
             body = data.split("\r\n\r\n", 1)[1]
 
         return cls(method=method, path=path, headers=headers, body=body)

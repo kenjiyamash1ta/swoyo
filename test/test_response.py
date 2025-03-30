@@ -1,5 +1,5 @@
-import pytest
 from src.response import HTTPResponse
+
 
 def test_to_bytes():
     response = HTTPResponse(
@@ -24,6 +24,7 @@ def test_to_bytes():
 
     assert response_bytes == expected
 
+
 def test_from_bytes():
     response_bytes = (
         b"HTTP/1.1 200 OK\r\n"
@@ -43,6 +44,7 @@ def test_from_bytes():
     }
     assert response.body == '{"status": "success"}'
 
+
 def test_to_bytes_and_from_bytes_roundtrip():
     original_response = HTTPResponse(
         status_code=404,
@@ -59,6 +61,7 @@ def test_to_bytes_and_from_bytes_roundtrip():
     assert new_response.headers == original_response.headers
     assert new_response.body == original_response.body
 
+
 def test_from_bytes_without_body():
     response_bytes = (
         b"HTTP/1.1 204 No Content\r\n"
@@ -72,6 +75,7 @@ def test_from_bytes_without_body():
     assert response.status_message == "No Content"
     assert response.headers == {"Content-Type": "text/plain"}
     assert response.body == ""
+
 
 def test_from_bytes_with_empty_headers():
     response_bytes = (

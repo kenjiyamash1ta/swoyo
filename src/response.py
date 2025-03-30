@@ -1,5 +1,6 @@
 from typing import Dict, Optional
 
+
 class HTTPResponse:
     def __init__(
         self,
@@ -15,7 +16,9 @@ class HTTPResponse:
 
     def to_bytes(self) -> bytes:
         status_line = f"HTTP/1.1 {self.status_code} {self.status_message}\r\n"
-        headers = "\r\n".join(f"{key}: {value}" for key, value in self.headers.items())
+        headers = "\r\n".join(
+            f"{key}: {value}" for key, value in self.headers.items()
+        )
         body = self.body if self.body else ""
         http_response = f"{status_line}{headers}\r\n\r\n{body}"
         return http_response.encode('utf-8')
@@ -39,8 +42,13 @@ class HTTPResponse:
             if is_body:
                 body += line
             else:
-                if ": " in line:  
+                if ": " in line:
                     key, value = line.split(": ", 1)
                     headers[key] = value
 
-        return cls(status_code=status_code, status_message=status_message, headers=headers, body=body)
+        return cls(
+            status_code=status_code,
+            status_message=status_message,
+            headers=headers,
+            body=body,
+        )
